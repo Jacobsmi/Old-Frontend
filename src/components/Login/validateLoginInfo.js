@@ -11,5 +11,24 @@ module.exports = (username, password) => {
         return 'username_error'
     }
     // Make a call to the API to search for the login password
-    
+    fetch('http://localhost:3000/login',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(resp => resp.json())
+    .then(respJSON => {
+        if (respJSON['status'] === 'success'){
+            console.log("Logged in successfully")
+            return true
+        }else if (respJSON['status'] === 'no_body_error'){
+            console.log("Error sending the body of the request")
+            return false
+        }
+    })
 }

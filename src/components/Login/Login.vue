@@ -20,16 +20,18 @@ export default {
             document.getElementById("passwordInput").type = 'password'
             document.getElementById("passwordInput").value = ''
 		},
-		loginClick: function (){
+		loginClick: async function (){
 			let username = document.getElementById("usernameInput").value
 			let password = document.getElementById("passwordInput").value
       
       // Import the file that has the validation function
       const validateLogin = require('./validateLoginInfo')
-      console.log(validateLogin(username, password))
+      
+      let response = await validateLogin(username, password)
+      console.log('Valiadte Login returned', response)
 		}
 
-    }
+  }
 }
 </script>
 
