@@ -1,7 +1,10 @@
-module.exports = (username, password) => {
+module.exports =  async (username, password) => {
+    
     let usernameRegex = /^([a-zA-Z0-9_]){3,15}$/
-	let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
-    if(!username.match(usernameRegex) && !password.match(passwordRegex)){
+    let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+    if (username == null || password == null){
+        return 'null_error'
+    }else if(!username.match(usernameRegex) && !password.match(passwordRegex)){
         return 'username_password_error'
     }else if(!username.match(usernameRegex)){
         return 'username_error'
@@ -11,7 +14,7 @@ module.exports = (username, password) => {
         return 'username_error'
     }
     // Make a call to the API to search for the login password
-    fetch('http://localhost:3000/login',{
+    const resp = await fetch('http://localhost:3000/login',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,14 +24,14 @@ module.exports = (username, password) => {
             password: password
         })
     })
-    .then(resp => resp.json())
-    .then(respJSON => {
-        if (respJSON['status'] === 'success'){
-            console.log("Logged in successfully")
-            return true
-        }else if (respJSON['status'] === 'no_body_error'){
-            console.log("Error sending the body of the request")
-            return false
-        }
-    })
+    const respJSON = await resp.json()
+
+    if (respJSON['status'] === 'success'){
+        console.log("Logged in successfully")
+        return 'true'
+    }else if (respJSON['status'] === 'no_body_error'){
+        console.log("Error sending the body of the request")
+        return 'false'
+    }
+
 }
