@@ -28,10 +28,13 @@ module.exports =  async (username, password) => {
 
     if (respJSON['status'] === 'success'){
         console.log("Logged in successfully")
-        return 'true'
+        return 'logged_in'
+    }else if(respJSON['status'] === 'user_not_exists'){
+        console.log("ERROR: USER DOES NOT EXIST")
+        return 'user_not_exists'
     }else if (respJSON['status'] === 'no_body_error'){
         console.log("Error sending the body of the request")
-        return 'false'
+        return 'no_body_error'
     }
 
 }

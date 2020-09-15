@@ -6,6 +6,10 @@
     <input @click="passwordInputClick" type="text" id="passwordInput" value="Password" />
     <br />
     <button @click="loginClick" id="loginButton">Login</button>
+    
+    <div id='loginError'>
+
+    </div>
   </div>
 </template>
 
@@ -28,9 +32,12 @@ export default {
 
       // Import the file that has the validation function
       const validateLogin = require("./validateLoginInfo");
-        
+      const handleResponse = require("./handleResponse");
       const response = await validateLogin(username, password);
-      console.log(response);
+      const canLogin = handleResponse(response);
+      if (canLogin){
+        console.log("Can now actually attempt login with password")
+      }
     },
   },
 };
